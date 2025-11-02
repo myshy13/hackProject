@@ -7,7 +7,7 @@ clear
 clear
 sleep 0.1
 
-version="1.0.0"
+version="1.0.1"
 
 # Check for -v flag
 while getopts "vh" opt; do
