@@ -1,9 +1,9 @@
 #!/bin/bash
 
 # variables
-hackLocation="/Users/hamish/hackProject/hack"
-updaterLocation="/Users/hamish/hackProject/hackInstaller"
-UninstallerLocation="/Users/hamish/hackProject/hackUninstaller"
+hackLocation="https://raw.githubusercontent.com/myshy13/hackProject/refs/heads/main/hack" # url to the hack script: https://raw.githubusercontent.com/myshy13/hackProject/refs/heads/main/hack
+updaterLocation="https://raw.githubusercontent.com/myshy13/hackProject/refs/heads/main/hackInstaller"
+UninstallerLocation="https://raw.githubusercontent.com/myshy13/hackProject/refs/heads/main/hackUninstaller"
 
 # remove all current installed instances
 echo "Checking for existing installations..."
@@ -12,11 +12,11 @@ if [ -n "$hackFile" ]; then
 echo "IRemoving existing hack installation..."
     sudo rm -f "$hackFile" 
     else
-        echo "INo existing hack installation found."
+        echo "Info: No existing hack installation found."
 fi
 
 if [ ! -n "$(which hackUpdater)" ]; then
-    read -p "Would you like to install the hack updater? (y/n)" install_updater
+    read -p "Would you like to install the hack updater? [y/n]: " install_updater
     if [ "$install_updater" = "y" ] || [ "$install_updater" = "Y" ]; then
         sudo cp "$updaterLocation" /usr/local/bin/hackUpdater
         sudo chmod +x /usr/local/bin/hackUpdater
@@ -28,7 +28,23 @@ if [ ! -n "$(which hackUpdater)" ]; then
 fi
 
 # install new version
-sudo cp "$hackLocation" /usr/local/bin/hack
+if [[ "$hackLocation" =~ ^https?:// ]]; then
+    echo "I: Downloading hack from $hackLocation..."
+    # download via curl into the target path (requires sudo to write)
+    if ! sudo curl -fsSL "$hackLocation" -o /usr/local/bin/hack; then
+        echo "E: Failed to download $hackLocation"
+        exit 1
+    fi
+else
+    # local file path
+    if ! sudo cp "$hackLocation" /usr/local/bin/hack; then
+        echo "E: Failed to copy $hackLocation"
+        exit 1
+    fi
+fi
+
+# ensure executable
+sudo chmod +x /usr/local/bin/hack
 
 read -p "#Would you like to restart your terminal now to apply changes? (y/n)" restart_terminal
 if [ "$restart_terminal" = "y" ] || [ "$restart_terminal" = "Y" ]; then
