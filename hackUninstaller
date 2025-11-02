@@ -14,3 +14,10 @@ if [ "$confirm" = "y" ] || [ "$confirm" = "Y" ]; then
 else
     echo "Uninstallation cancelled."
 fi
+
+read -p "#Would you like to restart your terminal now to apply changes? (y/n): " restart_terminal
+if [ "$restart_terminal" = "y" ] || [ "$restart_terminal" = "Y" ]; then
+    source ~/.bash_profile 2>/dev/null || source ~/.zshrc 2>/dev/null
+    clear
+    hack -h
+fi

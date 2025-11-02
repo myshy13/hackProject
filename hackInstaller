@@ -29,12 +29,12 @@ if [ ! -n "$(which hackUpdater)" ]; then
     if [ "$install_updater" = "y" ] || [ "$install_updater" = "Y" ]; then
         echo "I: Installing Updater script."
         sudo touch /usr/local/bin/hackUpdater
-        echo $(curl -fsSl $(updaterLocation)) > /usr/local/bin/hackUpdater
+        echo $(curl -fsSl $updaterLocation) > /usr/local/bin/hackUpdater
         sudo chmod +x /usr/local/bin/hackUpdater
 
         echo "I: Installing Uninstallation script."
         sudo touch /usr/local/bin/hackUninstaller
-        echo $(curl -fsSl $(UninstallerLocation)) > /usr/local/bin/hackUninstaller
+        echo $(curl -fsSl $UninstallerLocation) > /usr/local/bin/hackUninstaller
         sudo chmod +x /usr/local/bin/hackUninstaller
     fi
 fi
