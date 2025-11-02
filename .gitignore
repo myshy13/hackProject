@@ -1,0 +1,54 @@
+# macos files
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Thumbnails
+._*
+.Trashes
+.Spotlight-V100
+.DocumentRevisions-V100
+
+# Windows files
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# Linux files
+*~
+.nfs*
+.fuse_hidden*
+# Temporary files
+*.swp
+*.swo
+*.tmp
+*.bak
+*.old
+*.orig
+# Logs
+*.log
+logs/
+*.log.*
+
+# Dependency directories
+node_modules/
+vendor/
+.bower_components/
+# Build directories
+dist/
+build/
+out/
+# IDE files
+
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+# Environment files
+.env
+.env.local
+.env.*.local
+# Coverage reports
+coverage/
+.nyc_output/
