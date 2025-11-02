@@ -5,6 +5,15 @@ hackLocation="https://raw.githubusercontent.com/myshy13/hackProject/refs/heads/m
 updaterLocation="https://raw.githubusercontent.com/myshy13/hackProject/refs/heads/main/hackInstaller"
 UninstallerLocation="https://raw.githubusercontent.com/myshy13/hackProject/refs/heads/main/hackUninstaller"
 
+# check for dependencies
+dependencies=("curl" "nmap" "arp" "ping" "dig")
+for dep in "${dependencies[@]}"; do
+    if ! command -v "$dep" &> /dev/null; then
+        echo "E: Dependency '$dep' is not installed. Please install it and try again."
+        exit 1
+    fi
+done
+
 # remove all current installed instances
 echo "Checking for existing installations..."
 sudo -v
@@ -46,7 +55,9 @@ fi
 # ensure executable
 sudo chmod +x /usr/local/bin/hack
 
-read -p "#Would you like to restart your terminal now to apply changes? (y/n)" restart_terminal
+read -p "#Would you like to restart your terminal now to apply changes? (y/n): " restart_terminal
 if [ "$restart_terminal" = "y" ] || [ "$restart_terminal" = "Y" ]; then
     source ~/.bash_profile 2>/dev/null || source ~/.zshrc 2>/dev/null
+    clear
+    hack -h
 fi
