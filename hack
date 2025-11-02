@@ -17,14 +17,17 @@ while getopts "vh" opt; do
       exit 0
       ;;
     h)
-      echo "Usage: hack [options]"
-      echo "Options:"
-      echo "  -v    Show version"
-      echo "  -h    Show this help message"
-      echo "Examples:"
-        echo "  hack -v          Show version"
-        echo "  hack -h          Show help message"
-        echo "  hack             Run the hack tool"
+      echo "------------------------------------------"
+      echo "|Usage: hack [options]                   |"
+      echo "|Options:                                |"
+      echo "|  -v    Show version                    |"
+      echo "|  -h    Show this help message          |"
+      echo "|----------------------------------------|"
+      echo "|Examples:                               |"
+      echo "|  hack -v          Show version         |"
+      echo "|  hack -h          Show help message    |"
+      echo "|  hack             Run the hack tool    |"
+      echo "------------------------------------------"
       exit 0
       ;;
   esac
@@ -40,7 +43,7 @@ echo "  5: do a dns lookup for a url"
 echo "  6: do a reverse dns lookup for an ip"
 echo "  7. exit"
 
-read -p "Enter your choice (1 / 2 / 3): " option
+read -p "Enter your choice: " option
 clear
 if [ "$option" == "1" ]; then
     echo "Finding all devices on the current network..."
@@ -88,7 +91,7 @@ fi
 if [ "$option" == "5" ]; then
     read -p "domain for dns lookup: " domain
     echo "running dns lookup for $domain"
-    dig $domain
+    dig $domain +short
 fi
 
 if [ "$option" == "6" ]; then
@@ -101,7 +104,12 @@ if [ "$option" == "7" ]; then
     clear
     exit 0
 fi
+    read -p "Press enter to continue..."
+    clear
 
-clear
-
-hack
+currentHackPath=$(which hack)
+if [ "$currentHackPath" != "" ]; then
+    $currentHackPath
+    else 
+    exit 0
+fi
