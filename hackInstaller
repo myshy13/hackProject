@@ -29,12 +29,12 @@ if [ ! -n "$(which hackUpdater)" ]; then
     if [ "$install_updater" = "y" ] || [ "$install_updater" = "Y" ]; then
         echo "I: Installing Updater script."
         sudo touch /usr/local/bin/hackUpdater
-        sudo echo $(curl -fsSl $updaterLocation) > /usr/local/bin/hackUpdater
         sudo chmod +x /usr/local/bin/hackUpdater
+        sudo curl -o /usr/local/bin/hackUpdater $updaterLocation
 
         echo "I: Installing Uninstallation script."
         sudo touch /usr/local/bin/hackUninstaller
-        sudo echo $(curl -fsSl $UninstallerLocation) > /usr/local/bin/hackUninstaller
+        sudo curl -o /usr/local/bin/hackUninstaller $UninstallerLocation
         sudo chmod +x /usr/local/bin/hackUninstaller
     fi
 fi
@@ -60,9 +60,7 @@ sudo chmod +x /usr/local/bin/hack
 sudo chmod +x /usr/local/bin/hackUpdater
 sudo chmod +x /usr/local/bin/hackUninstaller
 
-read -p "#Would you like to restart your terminal now to apply changes? (y/n): " restart_terminal
-if [ "$restart_terminal" = "y" ] || [ "$restart_terminal" = "Y" ]; then
-    source ~/.bash_profile 2>/dev/null || source ~/.zshrc 2>/dev/null
-    clear
-    hack -h
-fi
+
+source ~/.bash_profile 2>/dev/null || source ~/.zshrc 2>/dev/null
+clear
+hack -h
