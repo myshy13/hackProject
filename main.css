@@ -9,6 +9,7 @@ html {
   line-height: 1.6;
   padding: 20px;
   background-color: #3f3f3a;
+  z-index: -2;
 }
 h1,
 h2,
@@ -136,4 +137,42 @@ label {
 
 .sectionSplitter > * {
   width: 50%;
+}
+
+#circle1, #circle2, #circle3 {
+  position: absolute;
+  border-radius: 50%;
+  width: 50em;
+  aspect-ratio: 1 / 1;
+  pointer-events: none;
+  touch-action: none;
+}
+#circle1 {
+  top: -50%;
+  left: -10%;
+  width: 47em;
+  background-color: #ff00004d;
+}
+
+#circle2 {
+  bottom: -40%;
+  right: 10%;
+  width: 50em;
+  background-color: #0000ff4d;
+}
+
+#circle3 {
+  bottom: 90%;
+  left: 60%;
+  width: 30em;
+  background-color: #1515854d;
+}
+
+@media (max-width: 1358px) {
+  #circle1 {
+    display: none;
+  }
+  #circle2 {
+    width: 45em;
+  }
 }
