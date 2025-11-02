@@ -27,11 +27,14 @@ fi
 if [ ! -n "$(which hackUpdater)" ]; then
     read -p "Would you like to install the hack updater? [y/n]: " install_updater
     if [ "$install_updater" = "y" ] || [ "$install_updater" = "Y" ]; then
-        sudo cp "$updaterLocation" /usr/local/bin/hackUpdater
+        echo "I: Installing Updater script."
+        sudo touch /usr/local/bin/hackUpdater
+        echo $(curl -fsSl $(updaterLocation)) > /usr/local/bin/hackUpdater
         sudo chmod +x /usr/local/bin/hackUpdater
 
         echo "I: Installing Uninstallation script."
-        sudo cp "$UninstallerLocation" /usr/local/bin/hackUninstaller
+        sudo touch /usr/local/bin/hackUninstaller
+        echo $(curl -fsSl $(UninstallerLocation)) > /usr/local/bin/hackUninstaller
         sudo chmod +x /usr/local/bin/hackUninstaller
     fi
 fi
@@ -54,6 +57,8 @@ fi
 
 # ensure executable
 sudo chmod +x /usr/local/bin/hack
+sudo chmod +x /usr/local/bin/hackUpdater
+sudo chmod +x /usr/local/bin/hackUninstaller
 
 read -p "#Would you like to restart your terminal now to apply changes? (y/n): " restart_terminal
 if [ "$restart_terminal" = "y" ] || [ "$restart_terminal" = "Y" ]; then
