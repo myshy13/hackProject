@@ -1,0 +1,36 @@
+#!/bin/bash
+
+# variables
+hackLocation="/Users/hamish/hackProject/hack"
+updaterLocation="/Users/hamish/hackProject/hackInstaller"
+UninstallerLocation="/Users/hamish/hackProject/hackUninstaller"
+
+# remove all current installed instances
+echo "Checking for existing installations..."
+sudo -v
+if [ -n "$hackFile" ]; then
+echo "IRemoving existing hack installation..."
+    sudo rm -f "$hackFile" 
+    else
+        echo "INo existing hack installation found."
+fi
+
+if [ ! -n "$(which hackUpdater)" ]; then
+    read -p "Would you like to install the hack updater? (y/n)" install_updater
+    if [ "$install_updater" = "y" ] || [ "$install_updater" = "Y" ]; then
+        sudo cp "$updaterLocation" /usr/local/bin/hackUpdater
+        sudo chmod +x /usr/local/bin/hackUpdater
+
+        echo "I: Installing Uninstallation script."
+        sudo cp "$UninstallerLocation" /usr/local/bin/hackUninstaller
+        sudo chmod +x /usr/local/bin/hackUninstaller
+    fi
+fi
+
+# install new version
+sudo cp "$hackLocation" /usr/local/bin/hack
+
+read -p "#Would you like to restart your terminal now to apply changes? (y/n)" restart_terminal
+if [ "$restart_terminal" = "y" ] || [ "$restart_terminal" = "Y" ]; then
+    source ~/.bash_profile 2>/dev/null || source ~/.zshrc 2>/dev/null
+fi
