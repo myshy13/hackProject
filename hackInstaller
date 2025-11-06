@@ -5,34 +5,58 @@ hackLocation="https://raw.githubusercontent.com/myshy13/hackProject/refs/heads/m
 updaterLocation="https://raw.githubusercontent.com/myshy13/hackProject/refs/heads/main/hackInstaller"
 UninstallerLocation="https://raw.githubusercontent.com/myshy13/hackProject/refs/heads/main/hackUninstaller"
 
+# Text formatting
+BOLD='\033[1m'
+NC='\033[0m' # Reset formatting
+
+# Colors
+RED='\033[31m'
+GREEN='\033[32m'
+YELLOW='\033[33m'
+BLUE='\033[34m'
+CYAN='\033[36m'
+MAGENTA='\033[35m'
+WHITE='\033[37m'
+
+# Bold + Colors
+BOLD_RED="${BOLD}${RED}"
+BOLD_GREEN="${BOLD}${GREEN}"
+BOLD_YELLOW="${BOLD}${YELLOW}"
+BOLD_BLUE="${BOLD}${BLUE}"
+BOLD_CYAN="${BOLD}${CYAN}"
+BOLD_MAGENTA="${BOLD}${MAGENTA}"
+BOLD_WHITE="${BOLD}${WHITE}"   
+
 # check for dependencies
-dependencies=("curl" "nmap" "arp" "ping" "dig")
+dependencies=("curl" "nmap" "arp" "ping" "ifconfig" "netstat" "networksetup" "nslookup" "host" "traceroute")
 for dep in "${dependencies[@]}"; do
     if ! command -v "$dep" &> /dev/null; then
-        echo "E: Dependency '$dep' is not installed. Please install it and try again."
+        echo -e "${BOLD_RED}E: Dependency '$dep' is not installed. Please install it and try again."
         exit 1
     fi
 done
 
 # remove all current installed instances
-echo "Checking for existing installations..."
+echo -e "${GREEN}Info: Checking for existing installations..."
+
+echo "May require sudo permissions..."
 sudo -v
 if [ -n "$hackFile" ]; then
-echo "IRemoving existing hack installation..."
+echo -e "${GREEN}Info: Removing existing hack installation..."
     sudo rm -f "$hackFile" 
     else
-        echo "Info: No existing hack installation found."
+        echo -e "${GREEN}Info: No existing hack installation found."
 fi
 
 if [ ! -n "$(which hackUpdater)" ]; then
     read -p "Would you like to install the hack updater? [y/n]: " install_updater
     if [ "$install_updater" = "y" ] || [ "$install_updater" = "Y" ]; then
-        echo "I: Installing Updater script."
+        echo -e "${BOLD_GREEN}I: Installing Updater script."
         sudo touch /usr/local/bin/hackUpdater
         sudo chmod +x /usr/local/bin/hackUpdater
         sudo curl -o /usr/local/bin/hackUpdater $updaterLocation
 
-        echo "I: Installing Uninstallation script."
+        echo -e "${BOLD_GREEN}I: Installing Uninstallation script."
         sudo touch /usr/local/bin/hackUninstaller
         sudo curl -o /usr/local/bin/hackUninstaller $UninstallerLocation
         sudo chmod +x /usr/local/bin/hackUninstaller
@@ -41,16 +65,16 @@ fi
 
 # install new version
 if [[ "$hackLocation" =~ ^https?:// ]]; then
-    echo "I: Downloading hack from $hackLocation..."
+    echo -e "${BOLD_GREEN}I: Downloading hack from $hackLocation..."
     # download via curl into the target path (requires sudo to write)
     if ! sudo curl -fsSL "$hackLocation" -o /usr/local/bin/hack; then
-        echo "E: Failed to download $hackLocation"
+        echo -e "${BOLD_RED}E: Failed to download $hackLocation"
         exit 1
     fi
 else
     # local file path
     if ! sudo cp "$hackLocation" /usr/local/bin/hack; then
-        echo "E: Failed to copy $hackLocation"
+        echo -e "${BOLD_RED}E: Failed to copy $hackLocation"
         exit 1
     fi
 fi
