@@ -1,15 +1,78 @@
 #!/bin/bash
 
-echo "this is hack tool v1.0.0"
+version="1.2.1"
+
+echo "this is hack tool v$version"
 echo "do not use the tool for malicious purposes"
 
 clear
 clear
 sleep 0.1
 
-version="1.1.1"
+# Check if the first argument is "conf"
+if [ "$1" == "conf" ]; then
+    echo "Configuration Options:"
+    echo "  1: Show version"
+    echo "  2: Show help message"
+    echo "  3: view your computer network interfaces (ifconfig)"
+    echo "  4: Show network statistics (netstat -i)"
+    echo "  5: get WIFI info (networksetup -getinfo Wi-Fi)"
+    echo "  6: exit"
+    read -p "Enter your choice: " conf_option
+    clear
+    if [ "$conf_option" == "1" ]; then
+        echo "Version: $version"
+    fi
 
-# Check for -v flag
+    if [ "$conf_option" == "2" ]; then
+        echo "------------------------------------------"
+        echo "|Usage: hack [options]                   |"
+        echo "|Options:                                |"
+        echo "|  -v    Show version                    |"
+        echo "|  -h    Show this help message          |"
+        echo "|----------------------------------------|"
+        echo "|Examples:                               |"
+        echo "|  hack -v          Show version         |"
+        echo "|  hack -h          Show help message    |"
+        echo "|  hack conf  Show configuration options |"
+        echo "|  hack             Run the hack tool    |"
+        echo "------------------------------------------"
+    fi
+
+    if [ "$conf_option" == "3" ]; then
+        echo "Viewing network interfaces..."
+        ifconfig
+    fi
+
+    if [ "$conf_option" == "4" ]; then
+        echo "Showing network statistics..."
+        netstat -i
+    fi
+
+    if [ "$conf_option" == "5" ]; then
+        echo "Getting WIFI info..."
+        networksetup -getinfo Wi-Fi
+    fi
+
+    if [ "$conf_option" == "6" ]; then
+        clear
+        exit 0
+    fi
+    
+    if [ "$conf_option" != "6" ]; then
+        read -p "Press enter to continue..."
+        clear
+    else
+        exit 0
+    fi
+    currentHackPath=$(which hack)
+    if [ "$currentHackPath" != "" ]; then
+        $currentHackPath conf
+        else
+        exit 0
+    fi
+fi
+
 while getopts "vh" opt; do
   case $opt in
     v)
@@ -41,13 +104,14 @@ echo "  3. fetch an external IP address (and port)"
 echo "  4: ping an IP address"
 echo "  5: do a dns lookup for a url"
 echo "  6: do a reverse dns lookup for an ip"
-echo "  7. exit"
+echo "  7: trace to an ip address"
+echo "  8. exit"
 
 read -p "Enter your choice: " option
 clear
 if [ "$option" == "1" ]; then
     echo "Finding all devices on the current network..."
-    arp -a
+    arp -l -a
     echo "done"
 fi
 if [ "$option" == "2" ]; then
@@ -88,7 +152,7 @@ fi
 if [ "$option" == "5" ]; then
     read -p "domain for dns lookup: " domain
     echo "running dns lookup for $domain"
-    dig $domain +short
+    nslookup $domain
 fi
 
 if [ "$option" == "6" ]; then
@@ -98,9 +162,16 @@ if [ "$option" == "6" ]; then
 fi
 
 if [ "$option" == "7" ]; then
+    read -p "ip address to trace: " trace_ip
+    echo "tracing to $trace_ip"
+    traceroute -q 1 $trace_ip
+fi
+
+if [ "$option" == "8" ]; then
     clear
     exit 0
 fi
+
     read -p "Press enter to continue..."
     clear
 
