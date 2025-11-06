@@ -7,7 +7,7 @@ clear
 clear
 sleep 0.1
 
-version="1.1.0"
+version="1.1.1"
 
 # Check for -v flag
 while getopts "vh" opt; do
@@ -49,14 +49,12 @@ if [ "$option" == "1" ]; then
     echo "Finding all devices on the current network..."
     arp -a
     echo "done"
-    read -p "Press enter to continue..."
 fi
 if [ "$option" == "2" ]; then
     read -p "Enter the device IP address: " ip_address
     echo "Listing all active ports on $ip_address..."
     nmap -sT "$ip_address"
     echo "done"
-    read -p "Press enter to continue..."
 fi
 
 if [ "$option" == "4" ]; then
@@ -85,7 +83,6 @@ if [ "$option" == "3" ]; then
         curl $external_ip:$port$page
     fi
     echo "done"
-    read -p "Press enter to continue..."
 fi
 
 if [ "$option" == "5" ]; then
