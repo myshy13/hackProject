@@ -1,18 +1,42 @@
 #!/bin/bash
 
-echo "Removing hack installation..."
+# Text formatting
+BOLD='\033[1m'
+NC='\033[0m' # Reset formatting
 
-echo "Requesting sudo permissions... (you may be prompted for your password)"
+# Colors
+RED='\033[31m'
+GREEN='\033[32m'
+YELLOW='\033[33m'
+BLUE='\033[34m'
+CYAN='\033[36m'
+MAGENTA='\033[35m'
+WHITE='\033[37m'
+
+# Bold + Colors
+BOLD_RED="${BOLD}${RED}"
+BOLD_GREEN="${BOLD}${GREEN}"
+BOLD_YELLOW="${BOLD}${YELLOW}"
+BOLD_BLUE="${BOLD}${BLUE}"
+BOLD_CYAN="${BOLD}${CYAN}"
+BOLD_MAGENTA="${BOLD}${MAGENTA}"
+BOLD_WHITE="${BOLD}${WHITE}"  
+
+echo -e "${RED}Removing hack installation..."
+
+echo -e "${GREEN}Requesting sudo permissions... (you may be prompted for your password)"
 sudo -v
 
-read -p "Are you sure you want to uninstall hack? [y/n]: " confirm
+echo -e "${BLUE}"
+read -p "Are you sure you want to uninstall hack? [y/n]: "  confirm
+echo -e "${NC}"
 if [ "$confirm" = "y" ] || [ "$confirm" = "Y" ]; then
     sudo rm -f $(which hack)
     sudo rm -f $(which hackUpdater)
     sudo rm -f $(which hackUninstaller)
-    echo "Hack uninstalled successfully."
+    echo -e "${BOLD_GREEN}Hack uninstalled successfully."
 else
-    echo "Uninstallation cancelled."
+    echo -e "${BOLD_RED}Uninstallation cancelled."
 fi
 
 
