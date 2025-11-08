@@ -1,13 +1,35 @@
 #!/bin/bash
 
-version="1.2.1"
+version="1.3.0"
 
-echo "this is hack tool v$version"
-echo "do not use the tool for malicious purposes"
+# Text formatting
+BOLD='\033[1m'
+NC='\033[0m' # Reset formatting
+
+# Colors
+RED='\033[31m'
+GREEN='\033[32m'
+YELLOW='\033[33m'
+BLUE='\033[34m'
+CYAN='\033[36m'
+MAGENTA='\033[35m'
+WHITE='\033[37m'
+
+# Bold + Colors
+BOLD_RED="${BOLD}${RED}"
+BOLD_GREEN="${BOLD}${GREEN}"
+BOLD_YELLOW="${BOLD}${YELLOW}"
+BOLD_BLUE="${BOLD}${BLUE}"
+BOLD_CYAN="${BOLD}${CYAN}"
+BOLD_MAGENTA="${BOLD}${MAGENTA}"
+BOLD_WHITE="${BOLD}${WHITE}"   
 
 clear
 clear
 sleep 0.1
+
+echo -e "${GREEN}This is hack tool v$version${NC}"
+echo -e "${BOLD_YELLOW}Do not use the tool for malicious purposes${NC}"
 
 # Check if the first argument is "conf"
 if [ "$1" == "conf" ]; then
@@ -25,12 +47,12 @@ if [ "$1" == "conf" ]; then
     fi
 
     if [ "$conf_option" == "2" ]; then
-        echo "------------------------------------------"
-        echo "|Usage: hack [options]                   |"
-        echo "|Options:                                |"
-        echo "|  -v    Show version                    |"
-        echo "|  -h    Show this help message          |"
-        echo "|----------------------------------------|"
+        echo -e "${BOLD_BLUE}------------------------------------------${NC}"
+        echo -e "${BOLD_YELLOW}|Usage: hack [options]                   |${NC}"
+        echo -e "${BOLD_YELLOW}|Options:                                |${NC}"
+        echo -e "${BOLD_YELLOW}|  -v    Show version                    |${NC}"
+        echo -e "${BOLD_YELLOW}|  -h    Show this help message          |${NC}"
+        echo -e "${BOLD_BLUE}|----------------------------------------|${NC}"
         echo "|Examples:                               |"
         echo "|  hack -v          Show version         |"
         echo "|  hack -h          Show help message    |"
@@ -80,17 +102,16 @@ while getopts "vh" opt; do
       exit 0
       ;;
     h)
-      echo "------------------------------------------"
-      echo "|Usage: hack [options]                   |"
-      echo "|Options:                                |"
-      echo "|  -v    Show version                    |"
-      echo "|  -h    Show this help message          |"
-      echo "|----------------------------------------|"
-      echo "|Examples:                               |"
-      echo "|  hack -v          Show version         |"
-      echo "|  hack -h          Show help message    |"
-      echo "|  hack             Run the hack tool    |"
-      echo "------------------------------------------"
+      echo -e "${BOLD}"
+      echo "Usage: hack [options] [subcommand]"
+      echo -e "Options:${NC}"
+      echo "  -v    Show version"
+      echo "  -h    Show this help message"
+      echo -e "${BOLD}Examples:${NC}"
+      echo "  hack -v          Show version"
+      echo "  hack -h          Show help message"
+      echo "  hack conf        Show configuration options"
+      echo -e "  hack             Run the hack tool${NC}"
       exit 0
       ;;
   esac

@@ -32,26 +32,32 @@ dependencies=("curl" "nmap" "arp" "ping" "ifconfig" "netstat" "networksetup" "ns
 for dep in "${dependencies[@]}"; do
     if ! command -v "$dep" &> /dev/null; then
         echo -e "${BOLD_RED}E: Dependency '$dep' is not installed. Please install it and try again."
+        echo -e "${BOLD_YELLOW}You can install it using your package manager. For example, on macOS you can use Homebrew:"
+        echo -e "${BOLD_CYAN}brew install $dep"
         exit 1
     fi
 done
 
 # remove all current installed instances
-echo -e "${GREEN}Info: Checking for existing installations..."
+echo -e "${BLUE}Info: Checking for existing installations..."
 
-echo "May require sudo permissions..."
-sudo -v
+echo -e "${NC}May require sudo permissions..."
+if ! sudo -v; then
+    echo -e "${BOLD_RED}E: This script requires sudo privileges. Exiting."
+    exit 1
+fi
 if [ -n "$hackFile" ]; then
-echo -e "${GREEN}Info: Removing existing hack installation..."
+echo -e "${BLUE}Info: Removing existing hack installation..."
     sudo rm -f "$hackFile" 
     else
-        echo -e "${GREEN}Info: No existing hack installation found."
+        echo -e "${BLUE}Info: No existing hack installation found."
 fi
 
 if [ ! -n "$(which hackUpdater)" ]; then
+    echo -e "${CYAN}"
     read -p "Would you like to install the hack updater? [y/n]: " install_updater
     if [ "$install_updater" = "y" ] || [ "$install_updater" = "Y" ]; then
-        echo -e "${BOLD_GREEN}I: Installing Updater script."
+        echo -e "${BOLD_GREEN}I: Installing Updater script.${NC}"
         sudo touch /usr/local/bin/hackUpdater
         sudo chmod +x /usr/local/bin/hackUpdater
         sudo curl -o /usr/local/bin/hackUpdater $updaterLocation
